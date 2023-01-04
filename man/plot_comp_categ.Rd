@@ -41,16 +41,9 @@ plotly object. The resulting visualization.
 High-level function that compares the frequencies of the levels of a
 selection of categorical variables between two data frames (i.e., data
 from two groups). Allows to choose between three different visualizations:
-}
-\details{
-\itemize{
-\item dumbbell plot
-\item deviation lollipop plot (deviation from 0)
-\item side-by-side lollipop plot
-}
-
-Visualizations are created using \code{ggplot2} and made interactive using
-\code{plotly}.
+dumbbell plot; deviation lollipop plot (deviation from 0); side-by-side
+lollipop plot. Visualizations are created using \code{ggplot2} and made
+interactive using \code{plotly}.
 }
 \examples{
 # prepare dataset to compare

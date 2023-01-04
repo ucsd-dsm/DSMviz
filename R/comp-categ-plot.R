@@ -6,13 +6,9 @@
 #' High-level function that compares the frequencies of the levels of a
 #'   selection of categorical variables between two data frames (i.e., data
 #'   from two groups). Allows to choose between three different visualizations:
-#'
-#'   - dumbbell plot
-#'   - deviation lollipop plot (deviation from 0)
-#'   - side-by-side lollipop plot
-#'
-#'   Visualizations are created using `ggplot2` and made interactive using
-#'   `plotly`.
+#'   dumbbell plot; deviation lollipop plot (deviation from 0); side-by-side
+#'   lollipop plot. Visualizations are created using `ggplot2` and made
+#'   interactive using `plotly`.
 #'
 #' @param data_1 tbl. Data frame with data from the first group.
 #' @param data_2 tbl. Data frame with data from the second group.

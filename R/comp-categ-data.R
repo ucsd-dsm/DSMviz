@@ -7,10 +7,8 @@
 #'   of the levels of a categorical variables between two data frames (i.e.,
 #'   data from two groups). Is used internally by `DSMviz::plot_comp_categ()`.
 #'   Allows to choose to prepare data for three different visualizations:
-#'
-#'   - dumbbell plot
-#'   - deviation lollipop plot (deviation from 0)
-#'   - side-by-side lollipop plot
+#'   dumbbell plot; deviation lollipop plot (deviation from 0); side-by-side
+#'   lollipop plot.
 #'
 #' @param data_1 tbl. Data frame with data from the first group.
 #' @param data_2 tbl. Data frame with data from the second group.

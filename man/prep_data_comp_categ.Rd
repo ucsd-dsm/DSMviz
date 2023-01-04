@@ -37,13 +37,8 @@ High-level function that prepares the data needed to compare the frequencies
 of the levels of a categorical variables between two data frames (i.e.,
 data from two groups). Is used internally by \code{DSMviz::plot_comp_categ()}.
 Allows to choose to prepare data for three different visualizations:
-}
-\details{
-\itemize{
-\item dumbbell plot
-\item deviation lollipop plot (deviation from 0)
-\item side-by-side lollipop plot
-}
+dumbbell plot; deviation lollipop plot (deviation from 0); side-by-side
+lollipop plot.
 }
 \examples{
 # prepare dataset to compare
@@ -54,7 +49,7 @@ data_comp <- data_recruitments |>
   )
 
 # create data frame for dumbbell plot of `ethnicity` variable
-plot_comp_categ(
+prep_data_comp_categ(
   data_1  = data_main,
   data_2  = data_comp,
   label_1 = "full dataset",
@@ -64,7 +59,7 @@ plot_comp_categ(
 )
 
 # create data frame for deviation plot of `urban` variable
-plot_comp_categ(
+prep_data_comp_categ(
   data_1  = data_main,
   data_2  = data_comp,
   label_1 = "group 1",
