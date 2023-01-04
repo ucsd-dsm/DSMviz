@@ -10,7 +10,7 @@ Authors@R:
     person(given = "Olivier",
            family = "Celhay",
            role = "aut",
-           comment = c(ORCID = "0000-0002-4035-0289")),
+           comment = c(ORCID = "0000-0002-4035-0289")))
 Description: Provides functions for data visualizations (static and interactive
     plots and tables) for the Data Science & Management group at the Center for
     Multimodal Imaging and Genetics (CMIG) at University of California,
