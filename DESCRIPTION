@@ -1,0 +1,35 @@
+Package: DSMviz
+Title: DSM Data Visualizations
+Version: 0.0.0.9000
+Authors@R:
+  c(person(given = "Janosch",
+           family = "Linkersdörfer",
+           role = c("aut", "cre"),
+           email = "jlinkersdoerfer@ucsd.edu","
+           comment = c(ORCID = "0000-0002-1577-1233")),
+    person(given = "Olivier",
+           family = "Celhay",
+           role = "aut",
+           comment = c(ORCID = "0000-0002-4035-0289")),
+Description: Provides functions for data visualizations (static and interactive
+    plots and tables) for the Data Science & Management group at the Center for
+    Multimodal Imaging and Genetics (CMIG) at University of California,
+    San Diego (UCSD).
+License: `use_mit_license()`
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.2.0
+URL: https://ucsd-dsm.github.io/DSMviz
+Depends: 
+    R (>= 2.10)
+LazyData: true
+Imports: 
+    dplyr,
+    forcats,
+    ggplot2,
+    glue,
+    plotly,
+    purrr,
+    scales,
+    stringr,
+    tidyr
