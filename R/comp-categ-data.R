@@ -34,7 +34,7 @@
 #'   )
 #'
 #' # create data frame for dumbbell plot of `ethnicity` variable
-#' plot_comp_categ(
+#' prep_data_comp_categ(
 #'   data_1  = data_main,
 #'   data_2  = data_comp,
 #'   label_1 = "full dataset",
@@ -44,7 +44,7 @@
 #' )
 #'
 #' # create data frame for deviation plot of `urban` variable
-#' plot_comp_categ(
+#' prep_data_comp_categ(
 #'   data_1  = data_main,
 #'   data_2  = data_comp,
 #'   label_1 = "group 1",
