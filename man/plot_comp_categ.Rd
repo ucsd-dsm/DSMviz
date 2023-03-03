@@ -49,7 +49,7 @@ interactive using \code{plotly}.
 # prepare dataset to compare
 data_main <- data_recruitments
 data_comp <- data_recruitments |>
-  slice_sample(
+  dplyr::slice_sample(
     n = 1000
   )
 
@@ -71,7 +71,7 @@ plot_comp_categ(
 )
 
 # use data dictionary to label variables
-data_dict <- tribble(
+data_dict <- tibble::tribble(
   ~var,         ~label,
   "race",       "Race",
   "ethnicity",  "Ethnicity",
@@ -85,7 +85,7 @@ data_dict <- tribble(
 plot_comp_categ(
   data_1    = data_recruitments,
   data_2    = data_recruitments |>
-    slice_sample(
+    dplyr::slice_sample(
       n = 1000
     ),
   label_1   = "Group 1",

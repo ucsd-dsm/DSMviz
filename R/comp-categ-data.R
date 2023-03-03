@@ -27,7 +27,7 @@
 #' # prepare dataset to compare
 #' data_main <- data_recruitments
 #' data_comp <- data_recruitments |>
-#'   slice_sample(
+#'   dplyr::slice_sample(
 #'     n = 1000
 #'   )
 #'
@@ -37,7 +37,7 @@
 #'   data_2  = data_comp,
 #'   label_1 = "full dataset",
 #'   label_2 = "sampled dataset",
-#'   vars    = "ethnicity",
+#'   var    = "ethnicity",
 #'   type    = "dumbbell"
 #' )
 #'
@@ -47,7 +47,7 @@
 #'   data_2  = data_comp,
 #'   label_1 = "group 1",
 #'   label_2 = "group 2",
-#'   vars    = "urban",
+#'   var    = "urban",
 #'   type    = "deviation"
 #' )
 #'

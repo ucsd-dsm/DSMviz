@@ -14,6 +14,7 @@
 #' @export
 #'
 #' @examples
+#' \donttest{
 #' pii_read(
 #'    token = "XXX",
 #'    table = "participants_events_log",
@@ -28,6 +29,7 @@
 #'    table = "participants_contacts",
 #'    fields = c("pguid", "contact_id", "relationship", "eventname", "serverdate", "id")
 #'    )
+#' }
 #'
 
 pii_read <- function(
@@ -53,6 +55,7 @@ pii_read <- function(
       httr::GET()
 
     if (r$status_code != 200) stop("Error with REDCap connection.")
+    if (r$result == "not authorized!!!") stop("Error with REDCap connection. Possibly wrong token.")
 
     return(
       r |>
@@ -109,9 +112,12 @@ pii_read <- function(
       purrr::list_transpose() |>
       tibble::as_tibble()
 
-    if (any(output$status_code != 200)) stop("Error with REDCap connection.")
 
-    return(dplyr::bind_rows(output$result))
+    if (any(output$status_code != 200)) stop("Error with REDCap connection.")
+    if (output$result[[1]] == "not authorized!!!") stop("Error with REDCap connection. Possibly wrong token.")
+
+    return(
+      dplyr::bind_rows(output$result)
+      )
   }
 }
-
