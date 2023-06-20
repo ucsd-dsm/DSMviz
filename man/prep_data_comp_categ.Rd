@@ -41,6 +41,7 @@ dumbbell plot; deviation lollipop plot (deviation from 0); side-by-side
 lollipop plot.
 }
 \examples{
+\dontrun{
 # prepare dataset to compare
 data_main <- data_recruitments
 data_comp <- data_recruitments |>
@@ -67,5 +68,6 @@ prep_data_comp_categ(
   vars    = "urban",
   type    = "deviation"
 )
+}
 
 }

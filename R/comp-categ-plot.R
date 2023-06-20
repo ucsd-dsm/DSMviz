@@ -27,6 +27,7 @@
 #' @export
 #'
 #' @examples
+#' \dontrun{
 #' # prepare dataset to compare
 #' data_main <- data_recruitments
 #' data_comp <- data_recruitments |>
@@ -82,6 +83,7 @@
 #'   type      = "deviation"
 #'   # type     = "side"
 #' )
+#' }
 #'
 plot_comp_categ <- function(data_1,
                             data_2,

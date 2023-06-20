@@ -46,6 +46,7 @@ lollipop plot. Visualizations are created using \code{ggplot2} and made
 interactive using \code{plotly}.
 }
 \examples{
+\dontrun{
 # prepare dataset to compare
 data_main <- data_recruitments
 data_comp <- data_recruitments |>
@@ -101,5 +102,6 @@ plot_comp_categ(
   type      = "deviation"
   # type     = "side"
 )
+}
 
 }
