@@ -359,11 +359,11 @@ compute_limits <- function(data, type = c("dumbbell", "deviation", "side")) {
       mutate(
         limit_min = purrr::map_dbl(
           data,
-          ~ min(.x[[var_x]])
+          ~ min(.x[[var_x]], na.rm = TRUE)
         ),
         limit_max = purrr::map_dbl(
           data,
-          ~ max(.x[[var_x]])
+          ~ max(.x[[var_x]], na.rm = TRUE)
         ),
         limits = list(
           c(min(limit_min), max(limit_max)) |>
