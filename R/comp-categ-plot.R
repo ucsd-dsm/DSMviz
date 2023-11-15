@@ -232,7 +232,7 @@ plot_comp_side <- function(data,
       mapping  = aes(
         group = group_line
       ),
-      size     = 1
+      linewidth = 1
     ) +
     scale_y_continuous(
       labels = scales::percent,
@@ -320,7 +320,7 @@ plot_comp_deviation <- function(data,
         group = group_line,
         color = diff_dir
       ),
-      size = 1
+      linewidth = 1
     ) +
     geom_point(
       aes(
@@ -381,7 +381,7 @@ plot_comp_dumbbell <- function(data,
         group = paired,
         color = diff_dir
       ),
-      size = 1
+      linewidth = 1
     ) +
     geom_point(
       mapping = aes(
