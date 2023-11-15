@@ -198,8 +198,8 @@ add_hovertext_deviation <- function(data, var, label_1, label_2) {
       text  = glue::glue(
         "
         <span style='color:#737373;font-size:110%'><i><b>{.data[[var]]}</b></i></span>
-        <b>{label_1}:</b> {round_perc(.data[[paste0('percent_', label_1)]])}% [{.data[[paste0('count_', label_1)]]}/{.data[[paste0('total_', label_1)]]}]
-        <b>{label_2}:</b> {round_perc(.data[[paste0('percent_', label_2)]])}% [{.data[[paste0('count_', label_2)]]}/{.data[[paste0('total_', label_2)]]}]
+        <b>{label_1}:</b> {round_perc(.data[[paste0('percent_', label_1)]])}%{format_counts(.data[[paste0('count_', label_1)]], .data[[paste0('total_', label_1)]])}
+        <b>{label_2}:</b> {round_perc(.data[[paste0('percent_', label_2)]])}%{format_counts(.data[[paste0('count_', label_2)]], .data[[paste0('total_', label_2)]])}
         <span style='font-size:90%;color:{color}'>\U2B24</span> <span style='color:{color}'><i><b>Difference: {format_diff(diff_percent)}%</b></i></span>
         "
       )
@@ -246,7 +246,7 @@ add_hovertext_dumbbell <- function(data, var, label_1, label_2) {
       ),
       text_1 = glue::glue(
         "
-        <span style='font-size:90%;color:{color_dot}'>\U2B24</span> <b>{group}:</b> {round_perc(percent)}% [{count}/{total}]
+        <span style='font-size:90%;color:{color_dot}'>\U2B24</span> <b>{group}:</b> {round_perc(percent)}%{format_counts(count, total)}
         "
       )
     ) |>
@@ -301,6 +301,14 @@ format_diff <- function(diff) {
     round_perc(diff) > 0,
     paste0("+", round_perc(diff)),
     as.character(round_perc(diff))
+  )
+}
+
+format_counts <- function(count, total) {
+  ifelse(
+    !is.na(count) & !is.na(total),
+    paste0(" [", count, "/", total, "]"),
+    ""
   )
 }
 
