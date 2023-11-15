@@ -10,6 +10,10 @@
 #'   lollipop plot. Visualizations are created using `ggplot2` and made
 #'   interactive using `plotly`.
 #'
+#'   Alternatively, allow to specify the plot data directly using `data_plot`.
+#'   In that case, all other arguments besides `type` do not have to be
+#'   specified.
+#'
 #' @param data_1 tbl. Data frame with data from the first group.
 #' @param data_2 tbl. Data frame with data from the second group.
 #' @param label_1 character. Label/name for the first group.
@@ -20,6 +24,8 @@
 #' @param data_dict tbl. Data frame with columns `var` and `label` to assign
 #'   more descriptive names to the variables in the plot (Optional. If not
 #'   provided, the column name will be used).
+#' @param data_plot tbl. Alternative way to directly specify the data to be
+#'   plotted.
 #' @param type character. Type of visualization to create (One of: "dumbbell"
 #' (Default), "deviation", or "side")
 #'
@@ -85,21 +91,54 @@
 #' )
 #' }
 #'
-plot_comp_categ <- function(data_1,
-                            data_2,
-                            label_1,
-                            label_2,
-                            vars,
+plot_comp_categ <- function(data_1 = NULL,
+                            data_2 = NULL,
+                            label_1 = NULL,
+                            label_2 = NULL,
+                            vars = NULL,
                             data_dict = NULL,
+                            data_plot = NULL,
                             type = c("dumbbell", "deviation", "side")) {
   type   <- match.arg(type)
 
-  # checks
-  data_1 <- convert_to_factor(data_1, vars)
-  data_2 <- convert_to_factor(data_2, vars)
+  if (is.null(data_plot)) {
+    # checks
+    data_1 <- convert_to_factor(data_1, vars)
+    data_2 <- convert_to_factor(data_2, vars)
+
+    n_vars <- length(vars)
+
+    # create nested tibble with data and plot objects
+    if (is.null(data_dict)) {
+      data_plot <- tibble(
+        var   = vars,
+        label = vars
+      )
+    } else {
+      data_plot <- data_dict |>
+        filter(var %in% vars) |>
+        arrange(match(var, vars))
+    }
+
+    data_plot <- data_plot |>
+      mutate(
+        data = purrr::map(
+          var,
+          ~ prep_data_comp_categ(
+            data_1  = data_1,
+            data_2  = data_2,
+            label_1 = label_1,
+            label_2 = label_2,
+            var     = .x,
+            type    = type
+          )
+        )
+      )
+  } else {
+    n_vars <- nrow(data_plot)
+  }
 
   # select lower level functions
-  n_vars <- length(vars)
   if (type == "dumbbell") {
     fun_plot    <- plot_comp_dumbbell
     hide_legend <- rep(TRUE, n_vars)
@@ -111,35 +150,7 @@ plot_comp_categ <- function(data_1,
     hide_legend <- c(FALSE, rep(TRUE, n_vars - 1))
   }
 
-  # create nested tibble with data and plot objects
-  if (is.null(data_dict)) {
-    config <- tibble(
-      var   = vars,
-      label = vars
-    )
-  } else {
-    config <- data_dict |>
-      filter(var %in% vars) |>
-      arrange(match(var, vars))
-  }
-
-  config <- config |>
-    # plot data
-    mutate(
-      data = purrr::map(
-        var,
-        ~ prep_data_comp_categ(
-          data_1  = data_1,
-          data_2  = data_2,
-          label_1 = label_1,
-          label_2 = label_2,
-          var     = .x,
-          type    = type
-        )
-      )
-    ) |>
-
-    # single plots and parameters for combined plot
+  config <- data_plot |>
     compute_limits(type = type) |>
     mutate(
       hide_legend = hide_legend,
