@@ -345,10 +345,10 @@ plot_comp_deviation <- function(data,
       n.breaks = 10
     ) +
     scale_fill_manual(
-      values = c("neg" = "#FFAAFF", "pos" = "#08519C")
+      values = c("neg" = "#CB181D", "pos" = "#08519C")
     ) +
     scale_color_manual(
-      values = c("neg" = "#FFAAFF", "pos" = "#08519C")
+      values = c("neg" = "#CB181D", "pos" = "#08519C")
     ) +
     theme_minimal() +
     theme(
@@ -412,7 +412,7 @@ plot_comp_dumbbell <- function(data,
       n.breaks = 10
     ) +
     scale_color_manual(
-      values = c("neg" = "#FFAAFF", "pos" = "#08519C")
+      values = c("neg" = "#CB181D", "pos" = "#08519C")
     ) +
     theme_minimal() +
     theme(
