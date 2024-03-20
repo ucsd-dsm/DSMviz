@@ -5,12 +5,13 @@
 \title{Compare categorical variables between groups (plot)}
 \usage{
 plot_comp_categ(
-  data_1,
-  data_2,
-  label_1,
-  label_2,
-  vars,
+  data_1 = NULL,
+  data_2 = NULL,
+  label_1 = NULL,
+  label_2 = NULL,
+  vars = NULL,
   data_dict = NULL,
+  data_plot = NULL,
   type = c("dumbbell", "deviation", "side")
 )
 }
@@ -31,6 +32,9 @@ they aren't, they are converted to factor.}
 more descriptive names to the variables in the plot (Optional. If not
 provided, the column name will be used).}
 
+\item{data_plot}{tbl. Alternative way to directly specify the data to be
+plotted.}
+
 \item{type}{character. Type of visualization to create (One of: "dumbbell"
 (Default), "deviation", or "side")}
 }
@@ -44,6 +48,11 @@ from two groups). Allows to choose between three different visualizations:
 dumbbell plot; deviation lollipop plot (deviation from 0); side-by-side
 lollipop plot. Visualizations are created using \code{ggplot2} and made
 interactive using \code{plotly}.
+}
+\details{
+Alternatively, allow to specify the plot data directly using \code{data_plot}.
+In that case, all other arguments besides \code{type} do not have to be
+specified.
 }
 \examples{
 \dontrun{
