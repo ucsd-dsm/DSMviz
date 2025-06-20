@@ -53,12 +53,14 @@
 #' )
 #' }
 #'
-prep_data_comp_categ <- function(data_1,
-                                 data_2,
-                                 label_1,
-                                 label_2,
-                                 var,
-                                 type = c("dumbbell", "deviation", "side")) {
+prep_data_comp_categ <- function(
+  data_1,
+  data_2,
+  label_1,
+  label_2,
+  var,
+  type = c("dumbbell", "deviation", "side")
+) {
   type <- match.arg(type)
 
   # checks
@@ -147,7 +149,7 @@ add_hovertext_side <- function(data, var) {
         "black",
         "#FF7F00"
       ),
-      text  = glue::glue(
+      text = glue::glue(
         "
         <span style='color:#737373;font-size:110%'><i><b>{.data[[var]]}</b></i></span>
         <span style='font-size:90%;color:{color}'>\U2B24</span> <b>{group}:</b> {round_perc(percent)}% [{count}/{total}]
@@ -173,9 +175,11 @@ prep_data_comp_deviation <- function(data_1, data_2, label_1, label_2, var) {
       values_from = c(count, total, percent)
     ) |>
     mutate(
-      diff_count     = .data[[paste0("count_", label_2)]] - .data[[paste0("count_", label_1)]],
-      diff_percent   = .data[[paste0("percent_", label_2)]] - .data[[paste0("percent_", label_1)]],
-      diff_dir       = if_else(
+      diff_count = .data[[paste0("count_", label_2)]] -
+        .data[[paste0("count_", label_1)]],
+      diff_percent = .data[[paste0("percent_", label_2)]] -
+        .data[[paste0("percent_", label_1)]],
+      diff_dir = if_else(
         diff_percent < 0,
         "neg",
         "pos"
@@ -195,7 +199,7 @@ add_hovertext_deviation <- function(data, var, label_1, label_2) {
         "#CB181D",
         "#08519C"
       ),
-      text  = glue::glue(
+      text = glue::glue(
         "
         <span style='color:#737373;font-size:110%'><i><b>{.data[[var]]}</b></i></span>
         <b>{label_1}:</b> {round_perc(.data[[paste0('percent_', label_1)]])}%{format_counts(.data[[paste0('count_', label_1)]], .data[[paste0('total_', label_1)]])}
@@ -222,7 +226,7 @@ prep_data_comp_dumbbell <- function(data_1, data_2, label_1, label_2, var) {
     tidyr::pivot_longer(
       cols = matches("^count_|^total_|^percent_"),
       names_to = c(".value", "group"),
-      names_sep="_"
+      names_sep = "_"
     ) |>
     mutate(
       group = factor(
@@ -235,7 +239,7 @@ prep_data_comp_dumbbell <- function(data_1, data_2, label_1, label_2, var) {
 add_hovertext_dumbbell <- function(data, var, label_1, label_2) {
   data |>
     mutate(
-      color_dot  = case_when(
+      color_dot = case_when(
         group == label_1 ~ "#000000",
         group == label_2 & diff_dir == "neg" ~ "#CB181D",
         group == label_2 & diff_dir == "pos" ~ "#08519C"
@@ -287,8 +291,9 @@ compute_freqs <- function(data, var) {
       .groups = "drop_last"
     ) |>
     mutate(
-      total   = sum(count),
-      percent = count / total) |>
+      total = sum(count),
+      percent = count / total
+    ) |>
     ungroup()
 }
 
@@ -323,11 +328,11 @@ format_counts <- function(count, total) {
 #' @param f function. Rounding function to use (Default: round)
 #'
 #' @return numeric (vector). (Vector of) rounded number(s).
-round_any <- function(x, accuracy, f=round){
-  f(x/ accuracy) * accuracy
+round_any <- function(x, accuracy, f = round) {
+  f(x / accuracy) * accuracy
 }
 
-count_zeros <- function(x, tol = .Machine$double.eps ^ 0.5) {
+count_zeros <- function(x, tol = .Machine$double.eps^0.5) {
   x <- abs(x)
   y <- -log10(x - floor(x))
   floor(y) - (y %% 1 < tol)
@@ -335,9 +340,9 @@ count_zeros <- function(x, tol = .Machine$double.eps ^ 0.5) {
 
 set_accuracy <- function(num) {
   if (num > 1) {
-    10 ^ nchar(floor(num))
+    10^nchar(floor(num))
   } else {
-    10 ^ -count_zeros(num)
+    10^-count_zeros(num)
   }
 }
 
@@ -356,7 +361,6 @@ compute_limits <- function(data, type = c("dumbbell", "deviation", "side")) {
   type = match.arg(type)
 
   if (type %in% c("dumbbell", "deviation")) {
-
     if (type == "dumbbell") {
       var_x <- "percent"
     } else if (type == "deviation") {
@@ -382,7 +386,6 @@ compute_limits <- function(data, type = c("dumbbell", "deviation", "side")) {
         -limit_min,
         -limit_max
       )
-
   } else {
     var_x <- "percent"
 
@@ -417,10 +420,9 @@ compute_heights <- function(data, n_vars) {
 
   data |>
     mutate(
-      heights = (
-        n_levels / sum(n_levels) * space_prop +
-          c(rep(space_same / (n_vars - 1), (n_vars - 1)), 0)
-      )
+      heights = (n_levels /
+        sum(n_levels) *
+        space_prop +
+        c(rep(space_same / (n_vars - 1), (n_vars - 1)), 0))
     )
 }
-
