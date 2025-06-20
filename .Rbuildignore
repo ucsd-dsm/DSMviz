@@ -9,3 +9,8 @@
 ^pkgdown$
 ^data-raw$
 ^LICENSE\.md$
+^Dockerfile$
+^Rprofile\.site$
+^app\.R$
+^dev$
+^air\.toml$

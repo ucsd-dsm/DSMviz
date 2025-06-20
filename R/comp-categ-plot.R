@@ -91,15 +91,17 @@
 #' )
 #' }
 #'
-plot_comp_categ <- function(data_1 = NULL,
-                            data_2 = NULL,
-                            label_1 = NULL,
-                            label_2 = NULL,
-                            vars = NULL,
-                            data_dict = NULL,
-                            data_plot = NULL,
-                            type = c("dumbbell", "deviation", "side")) {
-  type   <- match.arg(type)
+plot_comp_categ <- function(
+  data_1 = NULL,
+  data_2 = NULL,
+  label_1 = NULL,
+  label_2 = NULL,
+  vars = NULL,
+  data_dict = NULL,
+  data_plot = NULL,
+  type = c("dumbbell", "deviation", "side")
+) {
+  type <- match.arg(type)
 
   if (is.null(data_plot)) {
     # checks
@@ -111,7 +113,7 @@ plot_comp_categ <- function(data_1 = NULL,
     # create nested tibble with data and plot objects
     if (is.null(data_dict)) {
       data_plot <- tibble(
-        var   = vars,
+        var = vars,
         label = vars
       )
     } else {
@@ -125,12 +127,12 @@ plot_comp_categ <- function(data_1 = NULL,
         data = purrr::map(
           var,
           ~ prep_data_comp_categ(
-            data_1  = data_1,
-            data_2  = data_2,
+            data_1 = data_1,
+            data_2 = data_2,
             label_1 = label_1,
             label_2 = label_2,
-            var     = .x,
-            type    = type
+            var = .x,
+            type = type
           )
         )
       )
@@ -140,13 +142,13 @@ plot_comp_categ <- function(data_1 = NULL,
 
   # select lower level functions
   if (type == "dumbbell") {
-    fun_plot    <- plot_comp_dumbbell
+    fun_plot <- plot_comp_dumbbell
     hide_legend <- rep(TRUE, n_vars)
   } else if (type == "deviation") {
-    fun_plot    <- plot_comp_deviation
+    fun_plot <- plot_comp_deviation
     hide_legend <- rep(TRUE, n_vars)
   } else if (type == "side") {
-    fun_plot    <- plot_comp_side
+    fun_plot <- plot_comp_side
     hide_legend <- c(FALSE, rep(TRUE, n_vars - 1))
   }
 
@@ -156,9 +158,9 @@ plot_comp_categ <- function(data_1 = NULL,
       hide_legend = hide_legend,
       plot = purrr::pmap(
         list(
-          data        = data,
-          var         = var,
-          limits      = limits,
+          data = data,
+          var = var,
+          limits = limits,
           hide_legend = hide_legend
         ),
         fun_plot
@@ -175,7 +177,7 @@ plot_comp_categ <- function(data_1 = NULL,
     ) |>
     compute_heights(n_vars = n_vars) |>
     mutate(
-      y_pos        = 1 - lag(cumsum(heights), default = 0),
+      y_pos = 1 - lag(cumsum(heights), default = 0),
       facet_labels = purrr::map2(
         label,
         y_pos,
@@ -186,18 +188,18 @@ plot_comp_categ <- function(data_1 = NULL,
   # create combined plot
   subplot(
     config$plot,
-    nrows   = nrow(config),
+    nrows = nrow(config),
     heights = config$heights,
-    shareX  = TRUE,
-    margin  = c(0, 0, 0, 0.06)
+    shareX = TRUE,
+    margin = c(0, 0, 0, 0.06)
   ) |>
     layout(
       annotations = config$facet_labels,
       margin = list(
-        l   = 20,
-        r   = 20,
-        b   = 0,
-        t   = 50,
+        l = 20,
+        r = 20,
+        b = 0,
+        t = 50,
         pad = 4
       )
     )
@@ -209,10 +211,7 @@ plot_comp_categ <- function(data_1 = NULL,
 ##  ............................................................................
 ##  side-by-side lollipop                                                   ####
 
-plot_comp_side <- function(data,
-                           var,
-                           limits,
-                           hide_legend = FALSE) {
+plot_comp_side <- function(data, var, limits, hide_legend = FALSE) {
   # create a jittered x variable to dodge the lines
   x_var_levels <- forcats::fct_rev(data[[var]])
   levels_group <- levels(data$group)
@@ -229,25 +228,25 @@ plot_comp_side <- function(data,
   p <- data |>
     ggplot(
       mapping = aes(
-        x     = x_var,
-        y     = percent,
+        x = x_var,
+        y = percent,
         color = forcats::fct_rev(group),
-        text  = text
+        text = text
       )
     ) +
     geom_point(
-      size     = 3
+      size = 3
     ) +
     geom_line(
-      data     = create_data_line(data, "percent", "x_var"),
-      mapping  = aes(
+      data = create_data_line(data, "percent", "x_var"),
+      mapping = aes(
         group = group_line
       ),
       linewidth = 1
     ) +
     scale_y_continuous(
       labels = scales::percent,
-      limits   = limits,
+      limits = limits,
       n.breaks = 10
     ) +
     scale_x_continuous(
@@ -255,16 +254,16 @@ plot_comp_side <- function(data,
       labels = function(x) rev(x_var_levels)[x]
     ) +
     scale_fill_manual(
-      values =c("#FF7F00", "black")
+      values = c("#FF7F00", "black")
     ) +
     scale_color_manual(
-      values =c("#FF7F00", "black")
+      values = c("#FF7F00", "black")
     ) +
     theme_minimal() +
     coord_flip() +
     theme(
       panel.grid.major.y = element_blank(),
-      axis.title         = element_blank()
+      axis.title = element_blank()
     )
 
   pp <- ggplotly(p, tooltip = "text") |>
@@ -272,24 +271,24 @@ plot_comp_side <- function(data,
     layout(
       legend = list(
         orientation = "h",
-        xanchor     = "center",
-        yanchor     = "bottom",
-        x           = 0.5,
-        y           = 1.03,
-        title       = list(text = ""),
-        font        = list(
+        xanchor = "center",
+        yanchor = "bottom",
+        x = 0.5,
+        y = 1.03,
+        title = list(text = ""),
+        font = list(
           family = "Inter",
           size = 13
         ),
-        traceorder  = "reversed"
+        traceorder = "reversed"
       )
     ) |>
     style(
-      name   = levels_group[[2]],
+      name = levels_group[[2]],
       traces = c(1, 3)
     ) |>
     style(
-      name   = levels_group[[1]],
+      name = levels_group[[1]],
       traces = c(2, 4)
     )
 
@@ -307,23 +306,20 @@ plot_comp_side <- function(data,
 ##  ............................................................................
 ##  deviation lollipop                                                      ####
 
-plot_comp_deviation <- function(data,
-                                var,
-                                limits,
-                                hide_legend = FALSE) {
+plot_comp_deviation <- function(data, var, limits, hide_legend = FALSE) {
   p <- data |>
     ggplot(
       aes(
-        x    = diff_percent,
-        y    = forcats::fct_rev(.data[[var]]),
+        x = diff_percent,
+        y = forcats::fct_rev(.data[[var]]),
         fill = diff_dir,
         text = text
       )
     ) +
     geom_vline(
       xintercept = 0,
-      color      = "gray",
-      size       = 1
+      color = "gray",
+      size = 1
     ) +
     geom_line(
       data = create_data_line(data, "diff_percent", var),
@@ -337,11 +333,11 @@ plot_comp_deviation <- function(data,
       aes(
         color = diff_dir
       ),
-      size     = 4
+      size = 4
     ) +
     scale_x_continuous(
       labels = scales::percent,
-      limits   = limits,
+      limits = limits,
       n.breaks = 10
     ) +
     scale_fill_manual(
@@ -372,18 +368,15 @@ plot_comp_deviation <- function(data,
 ##  ............................................................................
 ##  dumbbell                                                                ####
 
-plot_comp_dumbbell <- function(data,
-                               var,
-                               limits,
-                               hide_legend = FALSE) {
+plot_comp_dumbbell <- function(data, var, limits, hide_legend = FALSE) {
   label_1 <- levels(data$group)[[1]]
   label_2 <- levels(data$group)[[2]]
 
   p <- data |>
     ggplot(
       aes(
-        x    = percent,
-        y    = forcats::fct_rev(.data[[var]]),
+        x = percent,
+        y = forcats::fct_rev(.data[[var]]),
         text = text
       )
     ) +
@@ -398,17 +391,17 @@ plot_comp_dumbbell <- function(data,
       mapping = aes(
         color = diff_dir
       ),
-      data    = filter(data, group == label_2),
-      size    = 4
+      data = filter(data, group == label_2),
+      size = 4
     ) +
     geom_point(
-      data    = filter(data, group == label_1),
+      data = filter(data, group == label_1),
       color = "black",
-      size=4
+      size = 4
     ) +
     scale_x_continuous(
-      labels   = scales::percent,
-      limits   = limits,
+      labels = scales::percent,
+      limits = limits,
       n.breaks = 10
     ) +
     scale_color_manual(

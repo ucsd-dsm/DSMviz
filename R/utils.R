@@ -14,4 +14,3 @@ convert_to_factor <- function(data, vars) {
       )
     )
 }
-
