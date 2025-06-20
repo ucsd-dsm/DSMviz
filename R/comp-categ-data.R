@@ -188,7 +188,8 @@ prep_data_comp_deviation <- function(data_1, data_2, label_1, label_2, var) {
           "neg",
           "pos"
         )
-    )
+    ) |>
+    suppressWarnings()
 }
 
 add_hovertext_deviation <- function(data, var, label_1, label_2) {
@@ -339,7 +340,9 @@ count_zeros <- function(x, tol = .Machine$double.eps^0.5) {
 }
 
 set_accuracy <- function(num) {
-  if (num > 1) {
+  if (is.na(num)) {
+    0
+  } else if (num > 1) {
     10^nchar(floor(num))
   } else {
     10^-count_zeros(num)
@@ -385,7 +388,8 @@ compute_limits <- function(data, type = c("dumbbell", "deviation", "side")) {
       select(
         -limit_min,
         -limit_max
-      )
+      ) |>
+      suppressWarnings()
   } else {
     var_x <- "percent"
 
