@@ -1,0 +1,15 @@
+# Workflow derived from https://github.com/r-lib/actions/tree/v2/examples
+# Need help debugging build failures? Start at https://github.com/r-lib/actions#where-to-find-help
+on:
+  push:
+    branches: [main, dev]
+  workflow_dispatch:
+#  pull_request:
+#    branches: [main, master]
+
+name: R-CMD-check Linux
+
+jobs:
+  R-CMD-check:
+    uses: ucsd-dsm/dsm-gha-R_CMD_check_internal/.github/workflows/workflow.yml@v1
+    secrets: inherit
