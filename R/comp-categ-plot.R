@@ -319,7 +319,7 @@ plot_comp_deviation <- function(data, var, limits, hide_legend = FALSE) {
     geom_vline(
       xintercept = 0,
       color = "gray",
-      size = 1
+      linewidth = 1
     ) +
     geom_line(
       data = create_data_line(data, "diff_percent", var),
