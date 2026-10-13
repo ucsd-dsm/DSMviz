@@ -25,11 +25,12 @@ jobs:
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
       R_KEEP_PKG_SOURCE: yes
-      # skip .Rprofile (renv) in CI
-      R_PROFILE_USER: /dev/null
 
     steps:
       - uses: actions/checkout@v4
+
+      - name: Disable renv
+        run: rm -f .Rprofile
 
       - uses: r-lib/actions/setup-pandoc@v2
 
