@@ -25,7 +25,8 @@ jobs:
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
       R_KEEP_PKG_SOURCE: yes
-      RENV_ACTIVATE_PROJECT: false
+      # skip .Rprofile (renv) in CI
+      R_PROFILE_USER: /dev/null
 
     steps:
       - uses: actions/checkout@v4
@@ -39,7 +40,7 @@ jobs:
 
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
-          extra-packages: any::rcmdcheck, any::renv
+          extra-packages: any::rcmdcheck
           needs: check
 
       - uses: r-lib/actions/check-r-package@v2
